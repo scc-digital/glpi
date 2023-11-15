@@ -28,18 +28,18 @@ services:
       - "9080:80"
 
   db:
-    container_name: "glpi-db"
-    image: mariadb:10.11
-    restart: unless-stopped
-    volumes:
-      - /var/lib/mysql
+    container_name: glpi-database
+    restart: always
+    image: mariadb
     environment:
-      MARIADB_ROOT_PASSWORD: glpi
+      MARIADB_USER: docker
+      MARIADB_ROOT_PASSWORD: docker
+      #      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: true
       MARIADB_DATABASE: glpi
-      MARIADB_USER: glpi
-      MARIADB_PASSWORD: glpi
-    expose:
-      - "3306"
+    volumes:
+      - ../../../data/glpi/psql:/var/lib/mysql
+    ports:
+      - "3306:3306"
 
   mailpit:
     container_name: "glpi-mailpit"
